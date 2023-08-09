@@ -1,0 +1,99 @@
+version: '3.8'
+# Поднимаем два сервиса, django И node
+services:
+  django:
+    build: ./software_accounting/
+    container_name: djangoapp
+    restart: always
+    ports:
+      - 8000:8000
+    # команда при старте контейнера
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    # Для статики мы подключаем два volume (чтобы при перезапуске наши данные не пропадали)), создадим их ниже.
+    volumes:
+      - ./software_accounting:/usr/src/app/
+      - django_static_volume:/usr/src/app/static
+      - django_media_volume:/usr/src/app/media
+    depends_on:
+      - db
+    environment:
+      SECRET_KEY: ${SECRET_KEY-django-insecure-406s7&%gcfvz41bf@hhuj%=i5j@!so9t$lrm1i4^i_g*i+sjj2}
+      DEBUG: ${DEBUG-TRUE}
+      ACCESS_TOKEN_LIFETIME_MINS: ${ACCESS_TOKEN_LIFETIME_MINS-60}
+      REFRESH_TOKEN_LIFETIME_DAYS: ${REFRESH_TOKEN_LIFETIME_DAYS-1}
+      DATABASE_URL: ${DATABASE_URL-postgres://app_dev:OwOtBdfep9Frut@db:5432/app_dev}
+    healthcheck:
+      test: curl --fail http://localhost:8000 || exit 1
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+    # подключаем к сети myNetwork (в целом не обязательно, но до кучи чтоб было)
+    networks:
+      - myNetwork
+
+
+  node:
+    # Аналогично, build из ./reactapp/dockerfile
+    build:
+      context: .
+      dockerfile: ./reactapp/Dockerfile
+    # имя контейнера
+    container_name: reactapp
+    # рестарт
+    restart: always
+    # порты
+    ports:
+      - 3000:3000
+    # команда при запуске
+    volumes:
+      - ./reactapp/public/:/usr/src/app/public/
+      - ./reactapp/src/:/usr/src/app/src/
+      - ./reactapp/package-lock.json:/opt/app/package-lock.json
+      - ./reactapp/package.json:/opt/app/package.json
+    command: serve -s build -l 3000
+    # Зависимость. нет смысла ноде, если некому отдать ей данные. поэтому сначала стартуем сервис django, а за ней node
+    depends_on:
+      - django
+    # Сеть та же, все контейнеры должны крутиться в однйо сети чтобы видеть друг друга.
+    networks:
+      - myNetwork
+# создаём два volume для статики
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    networks:
+      - myNetwork
+    # expose:
+    #   - 8080
+    ports:
+      - 80:80
+    depends_on:
+      - django
+    volumes:
+      - django_static_volume:/home/src/app/static
+      - django_media_volume:/home/src/app/media 
+  db:
+    image: postgres:14.4-alpine
+    container_name: postgresdb
+    restart: unless-stopped
+    # ports:
+    #   - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB-app_dev}
+      POSTGRES_PORT: ${POSTGRES_PORT-5432}
+      POSTGRES_USER: ${POSTGRES_USER-app_dev}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-OwOtBdfep9Frut}
+    networks:
+      - myNetwork
+volumes:
+  postgres_data:
+  django_static_volume:
+  django_media_volume:
+
+networks:
+  myNetwork:
+    driver: bridge
