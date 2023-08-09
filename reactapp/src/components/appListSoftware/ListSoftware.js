@@ -1,29 +1,28 @@
-import {Table} from "reactstrap";
+import { Table } from "reactstrap";
 import ModalSoftware from "../appModalSoftware/ModalSoftware";
 import AppRemoveSoftware from "../appRemoveSoftware/RemoveSoftware";
-// import ModalPhoto from "../appPhotoModal/ModalPhoto";
 
 const ListSoftware = (props) => {
-    const {software} = props
+    const { software } = props
     return (
         <Table dark>
             <thead>
-            <tr>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Currency</th>
-                <th>Count</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Currency</th>
+                    <th>Count</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            {!software || software.length <= 0 ? (
-                <tr>
-                    <td colSpan="4" align="center">
-                        <b>Пока ничего нет</b>
-                    </td>
-                </tr>
-            ) : software.map(software => (
+                {!software || software.length <= 0 ? (
+                    <tr>
+                        <td colSpan="4" align="center">
+                            <b>It's empty here now</b>
+                        </td>
+                    </tr>
+                ) : software.map(software => (
                     <tr key={software.id}>
                         <td>{software.title}</td>
                         <td>{software.price}</td>
@@ -44,7 +43,7 @@ const ListSoftware = (props) => {
                         </td>
                     </tr>
                 )
-            )}
+                )}
             </tbody>
         </Table>
     )

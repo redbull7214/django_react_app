@@ -1,5 +1,5 @@
-import {Fragment, useState} from "react";
-import {Button, Modal, ModalHeader, ModalBody} from "reactstrap";
+import { Fragment, useState } from "react";
+import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import SoftwareForm from "../appSoftwareForm/SoftwareForm";
 
 const ModalSoftware = (props) => {
@@ -16,7 +16,7 @@ const ModalSoftware = (props) => {
                 color="primary"
                 className="float-right"
                 onClick={() => toggle()}
-                style={{minWidth: "200px"}}>
+                style={{ minWidth: "200px" }}>
                 Add Software
             </Button>
         )
@@ -26,7 +26,7 @@ const ModalSoftware = (props) => {
             {button}
             <Modal isOpen={visible} toggle={toggle}>
                 <ModalHeader
-                    style={{justifyContent: "center"}}>{props.create ? "Add Software" : "Edit Software"}</ModalHeader>
+                    style={{ justifyContent: "center" }}>{props.create ? "Add Software" : "Edit Software"}</ModalHeader>
                 <ModalBody>
                     <SoftwareForm
                         software={props.software ? props.software : []}

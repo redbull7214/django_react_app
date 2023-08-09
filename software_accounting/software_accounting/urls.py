@@ -14,27 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, re_path, include
-from software import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
+from software import views
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
-    path('api/software/', views.SoftwareList.as_view(), name='software_list'),
-    path('api/software/<int:id>', views.SoftwareDetail.as_view(), name="software_detail"),
-    path('token/', 
-          jwt_views.TokenObtainPairView.as_view(), 
-          name ='token_obtain_pair'),
-     path('token/refresh/', 
-          jwt_views.TokenRefreshView.as_view(), 
-          name ='token_refresh')
+    path("admin/", admin.site.urls),
+    path("api/software/", views.SoftwareList.as_view(), name="software_list"),
+    path(
+        "api/software/<int:id>", views.SoftwareDetail.as_view(), name="software_detail"
+    ),
+    path("token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += [
-    #  path('home/', views.HomeView.as_view(), name ='home'),
-     path('logout/', views.LogoutView.as_view(), name ='logout')
-]

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const Logout = () => {
@@ -6,11 +6,13 @@ export const Logout = () => {
     useEffect(() => {
         (async () => {
             try {
-                const {data} = await axios.post('http://localhost:8000/logout/',{
-                    refresh_token:localStorage.getItem('refresh_token')
-                } ,{headers: {
-                    'Content-Type': 'application/json'
-                }}, {withCredentials: true});
+                const { data } = await axios.post('http://localhost:8000/logout/', {
+                    refresh_token: localStorage.getItem('refresh_token')
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }, { withCredentials: true });
 
                 console.log('logout', data)
                 localStorage.clear();
@@ -21,17 +23,6 @@ export const Logout = () => {
             }
         })();
     }, []);
-
-
-        
-
-        // console.log(data)
-        // localStorage.clear();
-        // localStorage.setItem('token', data.access);
-        // localStorage.setItem('refresh_token', data.refresh);
-        // axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
-        // window.location.href = '/'
-
 
     return (
         <div></div>

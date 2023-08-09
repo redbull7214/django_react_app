@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import { useEffect, useState } from "react";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import axios from "axios";
-import {API_URL} from "../../index";
+import { API_URL } from "../../index";
 
 const SoftwareForm = (props) => {
     const [software, setSoftware] = useState({})
@@ -18,7 +18,6 @@ const SoftwareForm = (props) => {
         if (!props.newSoftware) {
             setSoftware(software => props.software)
         }
-        // eslint-disable-next-line
     }, [props.software])
 
 
@@ -28,8 +27,7 @@ const SoftwareForm = (props) => {
 
     const submitDataEdit = async (e) => {
         e.preventDefault();
-        // eslint-disable-next-line
-        const result = await axios.put(API_URL + software.id, software, {headers: {'Content-Type': 'multipart/form-data'}})
+        const result = await axios.put(API_URL + software.id, software, { headers: { 'Content-Type': 'multipart/form-data' } })
             .then(() => {
                 props.resetState()
                 props.toggle()
@@ -43,8 +41,7 @@ const SoftwareForm = (props) => {
             currency: software['currency'],
             count: software['count']
         }
-        // eslint-disable-next-line
-        const result = await axios.post(API_URL, data, {headers: {'Content-Type': 'multipart/form-data'}})
+        const result = await axios.post(API_URL, data, { headers: { 'Content-Type': 'multipart/form-data' } })
             .then(() => {
                 props.resetState()
                 props.toggle()
@@ -88,7 +85,7 @@ const SoftwareForm = (props) => {
                     defaultValue={defaultIfEmpty(software.count)}
                 />
             </FormGroup>
-            <div style={{display: "flex", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button>Send</Button> <Button onClick={props.toggle}>Cancel</Button>
             </div>
         </Form>

@@ -5,8 +5,6 @@ COPY ./reactapp/package*.json /app/
 RUN npm install
 COPY ./reactapp /app
 RUN npm run build
-
-
 FROM node:${NODE_VERSION}-alpine
 WORKDIR /app
 RUN npm install -g serve

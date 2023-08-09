@@ -1,23 +1,23 @@
-import {Container, Row, Col} from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import ListSoftware from "../appListSoftware/ListSoftware";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import ModalSoftware from "../appModalSoftware/ModalSoftware";
-import {API_URL} from "../../index";
+import { API_URL } from "../../index";
 
 const Home = () => {
     const [software, setSoftware] = useState([])
 
-    useEffect(()=>{
-        if(localStorage.getItem('access_token') === null){
-            window.location.href = '/login'  
+    useEffect(() => {
+        if (localStorage.getItem('access_token') === null) {
+            window.location.href = '/login'
         }
-        else{
-        getSoftware()
+        else {
+            getSoftware()
         }
-    },[])
-        
-    const getSoftware = (data)=>{
+    }, [])
+
+    const getSoftware = (data) => {
         axios.get(API_URL).then(data => setSoftware(data.data))
     }
 
@@ -26,18 +26,18 @@ const Home = () => {
     };
 
     return (
-        <Container style={{marginTop: "20px"}}>
+        <Container style={{ marginTop: "20px" }}>
             <Row>
                 <Col>
-                    <ListSoftware software={software} resetState={resetState} newSoftware={false}/>
+                    <ListSoftware software={software} resetState={resetState} newSoftware={false} />
                 </Col>
             </Row>
             <Row>
                 <Col>
                     <ModalSoftware
-                    create={true}
-                    resetState={resetState}
-                    newSoftware={true}/>
+                        create={true}
+                        resetState={resetState}
+                        newSoftware={true} />
                 </Col>
             </Row>
         </Container>

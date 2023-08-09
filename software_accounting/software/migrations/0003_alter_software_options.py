@@ -4,14 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('software', '0002_software_currency'),
+        ("software", "0002_software_currency"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='software',
-            options={'ordering': ('price',), 'verbose_name': 'Software', 'verbose_name_plural': 'Software'},
+            name="software",
+            options={
+                "ordering": ("price",),
+                "verbose_name": "Software",
+                "verbose_name_plural": "Software",
+            },
         ),
     ]
