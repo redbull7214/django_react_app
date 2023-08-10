@@ -10,7 +10,6 @@ gunicorn==21.2.0
 psycopg2-binary==2.9.7
 PyJWT==2.8.0
 redis==4.6.0
-
 ```
 ## Preparatory works
 1. Setup [docker](https://docs.docker.com/get-docker/) and [docker compose v2](https://docs.docker.com/compose/cli-command/#installing-compose-v2);
@@ -29,10 +28,6 @@ git clone git@github.com:redbull7214/django_react_app.git
 cd django_react_app
 ```
 4. Create .env file.(optional)
-Example:
-```shell
-API_TOKEN = 'your bot token from botfather'
-```
 
 
 ## How to run the local version
